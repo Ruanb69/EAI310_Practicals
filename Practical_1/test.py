@@ -12,97 +12,144 @@ class Node:
         self.P = None
         self.S = None
         self.visited=False
+        self.height= 0
         self.parent = None
 
 
 
-class searchTree:
-    def __init__(self):
-        self.depth=5
-        self.root=Node(None,None)
+# class searchTree:
+#     def __init__(self):
+#         self.depth=5
+#         self.root=Node(None,None)
 
-    def insertNode(self,root, newMove):
-        if root == None:
-            root = Node(newMove)
-            root.parent = None
-            return root
-        if newMove == "R":
-            if root.R == None:
-                root.R = Node(newMove)
-                root.R.parent = root
-            else:
-                self.insertNode(root.R, newMove)
-            return root.R
-        elif newMove == "P":
-            if root.P is not None:
-                root.P = Node(newMove)
-                root.P.parent = root
-            else:
-                self.insertNode(root.P, newMove)
-            return root.P
-        elif newMove == "S":
-            if root.S is not None:
-                root.S = Node(newMove)
-                root.S.parent = root
-            else:
-                self.insertNode(root.S, newMove)
-            return root.S
+def insertNode(root, newMove):
+    if root == None:
+        root = Node(newMove)
+        root.parent = None
+        return root
+    if newMove == "R":
+        if root.R is None:
+            if root.height>=5:
+                return
+            root.R = Node(newMove)
+            root.R.parent = root
+            root.R.height=root.height+1
         else:
-            print("Unknown move")
-
-    def iterativeBFS(self):
-        root=self.root
-        if root is None:
-            print("No root")
-            return root
+            insertNode(root.R, newMove)
+        return root.R
+    elif newMove == "P":
+        if root.P is  None:
+            if root.height>=5:
+                return
+            root.P = Node(newMove)
+            root.P.parent = root
+            root.P.height = root.height + 1
         else:
-            q=deque()
-            root.visited=True
-            q.append(root)
-        step=0
-
-        while len(q)>0:
-            step+=1
-            currNode=q.popleft()
-
-            output = ""
-            if currNode.R != None:
-                currNode.R.visited=True
-                parent=currNode.parent
-                output += currNode.R.Move
-                while parent is not None:
-                    output+=parent.Move
-                    parent=parent.parent
-                print("step " + str(step) + ": " + output)
-                q.append(currNode.R)
-
-            output = ""
-            if currNode.P != None:
-                currNode.P.visited = True
-                parent = currNode.parent
-                output += currNode.P.Move
-                while parent is not None:
-                    output += parent.Move
-                    parent = parent.parent
-                print("step " + str(step) + ": " + output)
-                q.append(currNode.P)
-
-            output = ""
-            if currNode.S != None:
-                currNode.S.visited = True
-                parent = currNode.parent
-                output += currNode.S.Move
-                while parent is not None:
-                    output += parent.Move
-                    parent = parent.parent
-                print("step " + str(step) + ": " + output)
-                q.append(currNode.S)
+            insertNode(root.P, newMove)
+        return root.P
+    elif newMove == "S":
+        if root.S is  None:
+            if root.height>=5:
+                return
+            root.S = Node(newMove)
+            root.S.parent = root
+            root.S.height = root.height + 1
+        else:
+            insertNode(root.S, newMove)
+        return root.S
+    else:
+        print("Unknown move")
+###########################################################################################################################
 
 
+funcInput = ""
+prevPlaySequence=[]
+playSequence = []
+receivedSequence = []
 
-input=""
+def getPlaySequence(Node):
+    outArray = [Node.move]
+    parent = Node.parent
+    while parent is not None:
+        outArray.append(parent.Move)
+        parent = parent.parent
+    return outArray
+
+
+def iterativeBFS(root):
+    if root is None:
+        print("No root")
+        return root
+    else:
+        q=deque()
+        root.visited=True
+        q.append(root)
+    step=0
+
+    while len(q)>0:
+        step+=1
+        currNode=q.popleft()
+
+        if currNode != root:
+            if not  currNode.visited :
+                currNode.visited=True
+                global prevPlaySequence
+                prevPlaySequence= playSequence
+                global playSequence
+                playSequence= getPlaySequence(currNode)
+
+
+
+        out = ""
+        if currNode.R != None:
+            currNode.R.visited=True
+            parent=currNode.parent
+            out += currNode.R.Move
+            while parent is not None:
+                out+=parent.Move
+                parent=parent.parent
+            print("step " + str(step) + ": " + out)
+            q.append(currNode.R)
+
+        out = ""
+        if currNode.P != None:
+            currNode.P.visited = True
+            parent = currNode.parent
+            out += currNode.P.Move
+            while parent is not None:
+                out += parent.Move
+                parent = parent.parent
+            print("step " + str(step) + ": " + out)
+            q.append(currNode.P)
+
+        out = ""
+        if currNode.S != None:
+            currNode.S.visited = True
+            parent = currNode.parent
+            out += currNode.S.Move
+            while parent is not None:
+                out += parent.Move
+                parent = parent.parent
+            print("step " + str(step) + ": " + out)
+            q.append(currNode.S)
+
+
+
+# input=""
 #
-# if input == "":
+root=None
+insertNode(root,None)
+history = ["X","X"]
+if input == "":
+    insertNode(root,'R')
+
+
+else:
+    history.pop(0)
+    history.append(input)
+    iterativeBFS(root)
+
+
 
 
 

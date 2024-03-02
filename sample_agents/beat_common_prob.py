@@ -20,6 +20,14 @@ elif input == "P":
 elif input == "S":
     scissorsCount += 1
 
+
+serarch(){}
+    snvkvnkf
+    dfgfd
+    sddgfg
+    input+""
+    if in
+
 value = random.randint(1, rockCount + paperCount + scissorsCount)
 if value <= rockCount:
     output = "P"

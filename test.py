@@ -133,35 +133,35 @@ def iterativeBFS(root):
 
 
 
-        out = ""
+        # out = ""
         if currNode.R is not None:
             # currNode.R.visited=True
             parent=currNode.parent
-            out += currNode.R.Move
+            # out += currNode.R.Move
             while parent is not None:
-                out+=parent.Move
+                # out+=parent.Move
                 parent=parent.parent
             # print("step " + str(step) + ": " + out)
             q.append(currNode.R)
 
-        out = ""
+        # out = ""
         if currNode.P is not None:
             # currNode.P.visited = True
             parent = currNode.parent
-            out += currNode.P.Move
+            # out += currNode.P.Move
             while parent is not None:
-                out += parent.Move
+                # out += parent.Move
                 parent = parent.parent
             # print("step " + str(step) + ": " + out)
             q.append(currNode.P)
 
-        out = ""
+        # out = ""
         if currNode.S is not None:
-            currNode.S.visited = True
+            # currNode.S.visited = True
             parent = currNode.parent
-            out += currNode.S.Move
+            # out += currNode.S.Move
             while parent is not None:
-                out += parent.Move
+                # out += parent.Move
                 parent = parent.parent
             # print("step " + str(step) + ": " + out)
             q.append(currNode.S)
@@ -169,7 +169,13 @@ def iterativeBFS(root):
 
 
 # input=""
-#
+def getCorrectMove(Move):
+    if Move == "R":
+        return "P"
+    elif Move == "P":
+        return "S"
+    elif Move == "S":
+        return "R"
 
 
 
@@ -178,7 +184,7 @@ def iterativeBFS(root):
 if input == "":
 
     Counter=0
-    print(str(Counter)+" round")
+    print(" round "+ str(Counter))
     Counter +=1
 
     root=None
@@ -198,10 +204,11 @@ if input == "":
 
 
 else:
-    print(str(Counter) + " round")
+    print(" round "+ str(Counter) )
     Counter += 1
     if len(history) > 0:
         history.pop(0)
+        print("input : "+input)
         history.append(input)
     else:
         print(history)
@@ -210,21 +217,26 @@ else:
         correctFlag = True
         correctSequence = prevPlaySequence.copy()
         playSequence = prevPlaySequence
-        print("Wrong")
+        print("correct sequence"+str(correctSequence))
 
 
     if correctFlag and len(playSequence) > 0:
         output = playSequence.pop(0)
-        print("Wrong2")
+        print("move : "+str(output))
 
     elif correctFlag and len(playSequence) == 0:
-        print("Wrong3")
+
         if history[0] == history[1]:
-            playSequence = correctSequence
+
+            playSequence = correctSequence.copy()
+            print("counter move :"+ getCorrectMove(history[1]))
+            output = getCorrectMove(history[1])
+            print("replaying sequence")
         else:
+            print("incorrect sequence")
             correctFlag = False
 
-    elif Seq_exec_flag == False:
+    elif Seq_exec_flag == False or len(outputSequence) == 0:
         outputSequence = iterativeBFS(root).copy()
         print("sequence"+str(outputSequence))
         prevPlaySequence = outputSequence.copy()
@@ -232,19 +244,20 @@ else:
         output=outputSequence.pop(0)
     else:
         if len(outputSequence) > 1:
-            print("stuck")
             output = outputSequence.pop(0)
+            print(outputSequence)
         elif len(outputSequence) == 1:
-            print("finished sequence")
+            print(outputSequence)
             Seq_exec_flag = False
             output = outputSequence.pop(0)
+            print("finished sequence")
         else:
             output = "R"
             print("something wrong happened")
             Seq_exec_flag = False
-    print("2")
 
 
+print("output : " + output)
 
 
 

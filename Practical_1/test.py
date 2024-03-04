@@ -1,10 +1,6 @@
 from collections import deque
 class Node:
-    # R=None
-    # P=None
-    # S=None
-    # Move=""
-    # visited=None
+
 
     def __init__(self, move):
         self.Move = move
@@ -17,10 +13,7 @@ class Node:
 
 
 
-# class searchTree:
-#     def __init__(self):
-#         self.depth=5
-#         self.root=Node(None,None)
+
 
 def insertNode(root, newMove):
     if root == None:
@@ -62,10 +55,9 @@ def insertNode(root, newMove):
 ###########################################################################################################################
 
 
-funcInput = ""
-prevPlaySequence=[]
-playSequence = []
-receivedSequence = []
+
+
+
 
 def getPlaySequence(Node):
     outArray = [Node.move]
@@ -93,10 +85,12 @@ def iterativeBFS(root):
         if currNode != root:
             if not  currNode.visited :
                 currNode.visited=True
-                global prevPlaySequence
+
+                # global prevPlaySequence
                 prevPlaySequence= playSequence
-                global playSequence
+                # global playSequence
                 playSequence= getPlaySequence(currNode)
+                return playSequence
 
 
 
@@ -137,17 +131,59 @@ def iterativeBFS(root):
 
 # input=""
 #
-root=None
-insertNode(root,None)
-history = ["X","X"]
+
+
+
+
+
 if input == "":
-    insertNode(root,'R')
+    root = None
+    root = insertNode(root, None)
+    history = ["X", "X"]
+    outputSequence = []
+    Seq_exec_flag = False
+    correctFlag = False
+    # correctSequenceCounter=0
+    correctSequence = []
+    insertNode(root, 'R')
+    prevPlaySequence = []
+    playSequence = []
+    treeHeight=0
 
 
 else:
     history.pop(0)
     history.append(input)
-    iterativeBFS(root)
+
+    if history.index(0) == history.index(-1) and not correctFlag:
+        correctFlag = True
+        correctSequence = prevPlaySequence
+        playSequence = prevPlaySequence
+
+
+    if correctFlag and len(playSequence) > 0:
+        output = playSequence.pop(0)
+
+    elif correctFlag and len(playSequence) == 0:
+        if history.index(0) == history.index(-1):
+            playSequence = correctSequence
+        else:
+            correctFlag = False
+
+    else:
+
+        if  not Seq_exec_flag:
+            outputSequence = iterativeBFS(root)
+            Seq_exec_flag = True
+            output=outputSequence.pop(0)
+        else:
+            if len(outputSequence) > 1:
+                output = outputSequence.pop(0)
+            else:
+                output = outputSequence.pop(0)
+                Seq_exec_flag = False
+
+
 
 
 

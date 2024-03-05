@@ -341,5 +341,7 @@ else:
 
 #########
 #Discussion
-# The win rate is affected mostly by what the break sequence is for each map.
-# The run time is affected by the diffrent algorithm characteristics. Where BFS uses more searches to find the solution than DFS
+# The win rate is affected mostly by what the break sequence is for each mach.
+# The run time is affected by the different algorithm characteristics. Where BFS uses more searches to find the solution than DFS
+# There were rare cases where the agent did not win all the matches this is most likely caused by certain sequences that are played that have not been accounted for
+# in the agent logic.

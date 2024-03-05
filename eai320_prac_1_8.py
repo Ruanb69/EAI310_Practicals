@@ -90,7 +90,7 @@ def iterativeBFS(root):
 # BFS search to aquire the next sequence to be played
 # check if root is None
     if root is None:
-        # print("No root")
+        print("No root")
         return root
     else:
         # initialize the queue
@@ -117,7 +117,7 @@ def iterativeBFS(root):
             # while parent is not None:
                 # out+=parent.Move
                 # parent=parent.parent
-#             # print("step " + str(step) + ": " + out)
+#             print("step " + str(step) + ": " + out)
             q.append(currNode.R)
 
 
@@ -128,7 +128,7 @@ def iterativeBFS(root):
             # while parent is not None:
             #     # out += parent.Move
             #     parent = parent.parent
-#             # print("step " + str(step) + ": " + out)
+#             print("step " + str(step) + ": " + out)
             q.append(currNode.P)
 
         # out = ""
@@ -139,13 +139,13 @@ def iterativeBFS(root):
             # while parent is not None:
             #     # out += parent.Move
             #     parent = parent.parent
-#             # print("step " + str(step) + ": " + out)
+#             print("step " + str(step) + ": " + out)
             q.append(currNode.S)
 
 def iterativeDFS(root):
     #check if root doesn't exist
     if root is None:
-        # print("No root")
+        print("No root")
         return root
     elif firstflag:  #initialize variables
         root.visited = True
@@ -198,13 +198,13 @@ if input == "":
     #initialize all variables
 
     Counter=0
-    # print(" round "+ str(Counter))
+    print(" round "+ str(Counter))
     Counter +=1
     root = insertNode(None, None)
     makeSearchTree(root)
     history = ["X", "X"]
     outputSequence = []
-    # print("round Start")
+    print("round Start")
     Seq_exec_flag = False
     correctFlag = False
     correctSequence = []
@@ -221,30 +221,34 @@ if input == "":
 
 
 else:
-    # print(" round "+ str(Counter) )
+    print(" round "+ str(Counter) )
     Counter += 1
     # check if there is a valid history
     if len(history) > 0:
         history.pop(0)
-        # print("input : "+input)
+        print("input : "+input)
         history.append(input)
     else:
-          print(history)
+        print(history)
     # check if previous input results in a correct move
-    if history[0] == history[1] and not correctFlag and  lastMoveinSequence:
+    if history[0] == history[1] and not correctFlag and lastMoveinSequence and len(prevPlaySequence)>1:
         correctFlag = True
         correctSequence = prevPlaySequence.copy()
-        playSequence = prevPlaySequence
-        # print("correct sequence"+str(correctSequence))
+        lastMoveinSequence = False
+        #could be error
+        playSequence = correctSequence.copy()
+        print("correct sequence"+str(correctSequence))
 
     # play the correct sequence
     if correctFlag and len(playSequence) > 0:
         if history[0] != history[1] :
+            if len(playSequence) == 1:
+                lastMoveinSequence = True
             output = playSequence.pop(0)
-            # print("move : "+str(output))
+            print("move : "+str(output))
         else:
             output = getCorrectMove(history[1])
-            # print("counter Move: "+output)
+            print("counter Move: "+output)
 
     # finnish playing correct sequence
     elif correctFlag and len(playSequence) == 0:
@@ -253,11 +257,13 @@ else:
         if history[0] == history[1]:
 
             playSequence = correctSequence.copy()
-            # print("counter move :"+ getCorrectMove(history[1]))
+            print("counter move :"+ getCorrectMove(history[1]))
             output = getCorrectMove(history[1])
-            # print("replaying sequence")
-        else:
-            # print("incorrect sequence")
+            print("replaying sequence")
+        elif lastMoveinSequence:
+            print("incorrect sequence replying correct sequence")
+            # print(correctSequence)
+            # playSequence=correctSequence.copy()
             correctFlag = False
     # get the and start playing the next sequence in the search tree
     elif Seq_exec_flag == False or len(outputSequence) == 0:
@@ -268,8 +274,9 @@ else:
             outputSequence = iterativeDFS(root).copy()
             firstflag=False
         lastMoveinSequence = False
-        # print("sequence"+str(outputSequence))
-        prevPlaySequence = outputSequence.copy()
+        print("sequence"+str(outputSequence))
+        prevPlaySequence = playSequence
+        playSequence = outputSequence.copy()
         # flag to indicate that the sequence is being played
         Seq_exec_flag = True
         output=outputSequence.pop(0)
@@ -278,22 +285,22 @@ else:
         # play the sequence
         if len(outputSequence) > 1:
             output = outputSequence.pop(0)
-            # print(outputSequence)
+            print(outputSequence)
 
             # disalble the flag and get the last move
         elif len(outputSequence) == 1:
-            # print(outputSequence)
+            print(outputSequence)
             lastMoveinSequence = True
             Seq_exec_flag = False
             output = outputSequence.pop(0)
-            # print("finished sequence")
+            print("finished sequence")
         else:
             output = "R"
-            # print("something wrong happened")
+            print("something wrong happened")
             Seq_exec_flag = False
 
 
-# print("output : " + output)
+print("output : " + output)
 
 
 ##################################

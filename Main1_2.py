@@ -39,17 +39,17 @@ def read_csv_file(filename, population_size):
             game1_event = row[0][2:]  # substring of first 2 chars
             game2_event = row[0][:2]  # substring of last 2 chars
             # Analyse the previous 2 games and quantify scores
-            if game1_event == "RR" or "PP" or "SS":
+            if game1_event in [ "RR" , "PP" , "SS"]:
                 game1_result = 25
-            if game2_event == "RR" or "PP" or "SS":
+            if game2_event in [ "RR" , "PP" , "SS"]:
                 game2_result = 25
-            if game1_event == "PR" or "RS" or "SP":
+            if game1_event in [ "PR" , "RS" , "SP"]:
                 game1_result = 50
-            if game2_event == "PR" or "RS" or "SP":
+            if game2_event  in [ "PR" , "RS" , "SP"]:
                 game2_result = 50
-            if game1_result == "RP" or "SR" or "PS":
+            if game1_event  in [ "RP" , "SR" , "PS"]:
                 game1_result = 0
-            if game2_result == "RP" or "SR" or "PS":
+            if game2_event in [ "RP" , "SR" , "PS"]:
                 game2_result = 0
             specimen_fitness = game1_result + game2_result
             # Choose move to play
@@ -241,7 +241,7 @@ def mutation(offspring, mutation_rate):
 
 def main():
     csv_file = "data1.csv"
-    population = read_csv_file(csv_file, 10)
+    population = read_csv_file(csv_file, 4)
     # print(population)
     # genetics_array = [[] for _ in range(81)]
     # for i in range(81):
@@ -290,6 +290,12 @@ def main():
     for i in range(len(population)):
         print(third_generation[i].get_output())
         print(int(third_generation[i].get_fitness()))
+
+    fourth_generation = selection_and_crossover(second_generation, "H", 4, 0.1)
+
+    for i in range(len(population)):
+        print(fourth_generation[i].get_output())
+        print(int(fourth_generation[i].get_fitness()))
 
     # filename = 'data2.csv'
     # read_csv_file(filename, population_size=2)

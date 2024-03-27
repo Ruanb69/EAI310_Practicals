@@ -107,14 +107,15 @@ def merge_sort_by_fitness(population):
             k += 1
 
 
-def selection_and_crossover(specimens, type, population_size: int, mutation_rate: float):
+def selection_and_crossover(specimens, type, population_size: int, mutation_rate: float, sorted :bool):
     # Crossover methods:
     #       Random selection: "R"
     #       Percentage selection: "P"
     #       Half-and-Half: "H"
 
     # Selection method: Survival of the fittest!
-    merge_sort_by_fitness(specimens)
+    if sorted:
+        merge_sort_by_fitness(specimens)
     new_generation = []
     if type == "R":  # Random selection
         # Initialise arrays for the offspring
@@ -241,64 +242,25 @@ def mutation(offspring, mutation_rate):
 
 def main():
     csv_file = "data1.csv"
-    population = read_csv_file(csv_file, 4)
-    # print(population)
-    # genetics_array = [[] for _ in range(81)]
-    # for i in range(81):
-    #     genetics_array[i] = [75, "R"]
-    # specimen_1 = specimen(genetics_array)
-    # print(specimen_1.get_output())
-    # print(int(specimen_1.get_fitness()))
-    #
-    # genetics_array1 = [[] for _ in range(81)]
-    # for i in range(81):
-    #     genetics_array1[i] = [100, "S"]
-    # specimen2 = specimen(genetics_array1)
-    # print(specimen2.get_output())
-    # print(int(specimen2.get_fitness()))
-    #
-    # genetics_array2 = [[] for _ in range(81)]
-    # for i in range(81):
-    #     genetics_array2[i] = [50, "P"]
-    # specimen3 = specimen(genetics_array2)
-    # print(specimen3.get_output())
-    # print(int(specimen3.get_fitness()))
-    #
-    # genetics_array3 = [[] for _ in range(81)]
-    # for i in range(81):
-    #     genetics_array3[i] = [0, "R"]
-    # specimen4 = specimen(genetics_array3)
-    # print(specimen4.get_output())
-    # print(int(specimen4.get_fitness()))
-    #
-    # population = [specimen_1, specimen2, specimen3, specimen4]
-
-    first_generation = selection_and_crossover(population, "R", 4, 0.1)
-
+    pop_size =20
+    sorted =False
+    num_generations = 2
+    mutation_rate = 0.1
+    type = "P"
+    population = read_csv_file(csv_file, pop_size)
     for i in range(len(population)):
-        print(first_generation[i].get_output())
-        print(int(first_generation[i].get_fitness()))
+        print(population[i].get_output())
+        print(int(population[i].get_fitness()))
+    temp_generation =selection_and_crossover(population,type, pop_size, mutation_rate,sorted)
+    for i in range(num_generations):
+        if i !=0:
+            temp_generation =selection_and_crossover(temp_generation,type, pop_size, mutation_rate,sorted)
+        for j in range(len(temp_generation)):
+            print(temp_generation[i].get_output())
+            print(int(temp_generation[i].get_fitness()))
 
-    second_generation = selection_and_crossover(first_generation, "P", 4, 0.1)
 
-    for i in range(len(population)):
-        print(second_generation[i].get_output())
-        print(int(second_generation[i].get_fitness()))
 
-    third_generation = selection_and_crossover(second_generation, "H", 4, 0.1)
-
-    for i in range(len(population)):
-        print(third_generation[i].get_output())
-        print(int(third_generation[i].get_fitness()))
-
-    fourth_generation = selection_and_crossover(second_generation, "H", 4, 0.1)
-
-    for i in range(len(population)):
-        print(fourth_generation[i].get_output())
-        print(int(fourth_generation[i].get_fitness()))
-
-    # filename = 'data2.csv'
-    # read_csv_file(filename, population_size=2)
 
 
 main()

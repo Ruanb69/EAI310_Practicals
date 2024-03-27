@@ -69,7 +69,7 @@ def read_csv_file(filename, population_size):
                 # Clear the array for next node and reset placeholder
                 genetics_for_node = [[] for _ in range(81)]
                 row_counter = 0
-                population_size += 1
+                node_count += 1
 
             if population_size == node_count:
                 # The desired population has been reached
@@ -227,7 +227,7 @@ def mutation(offspring, mutation_rate):
     mutation_count = 0
     for i in range(len(offspring.genetics)):
 
-        if mutation_rate < R.randrange(0,1000):
+        if mutation_rate > R.randrange(0,1000):
             mutation_count += 1
             if offspring.genetics[i][1] == "R":
                 offspring.genetics[i][1] = "S"
@@ -240,38 +240,38 @@ def mutation(offspring, mutation_rate):
 
 
 def main():
-    # csv_file = "~/Documents/2024/EAI/Practicals/Practical 2/GeneticAlgorithm/data2.csv"
-    # population = read_csv_file(csv_file, 0)
+    csv_file = "data1.csv"
+    population = read_csv_file(csv_file, 10)
     # print(population)
-    genetics_array = [[] for _ in range(81)]
-    for i in range(81):
-        genetics_array[i] = [75, "R"]
-    specimen_1 = specimen(genetics_array)
-    print(specimen_1.get_output())
-    print(int(specimen_1.get_fitness()))
-
-    genetics_array1 = [[] for _ in range(81)]
-    for i in range(81):
-        genetics_array1[i] = [100, "S"]
-    specimen2 = specimen(genetics_array1)
-    print(specimen2.get_output())
-    print(int(specimen2.get_fitness()))
-
-    genetics_array2 = [[] for _ in range(81)]
-    for i in range(81):
-        genetics_array2[i] = [50, "P"]
-    specimen3 = specimen(genetics_array2)
-    print(specimen3.get_output())
-    print(int(specimen3.get_fitness()))
-
-    genetics_array3 = [[] for _ in range(81)]
-    for i in range(81):
-        genetics_array3[i] = [0, "R"]
-    specimen4 = specimen(genetics_array3)
-    print(specimen4.get_output())
-    print(int(specimen4.get_fitness()))
-
-    population = [specimen_1, specimen2, specimen3, specimen4]
+    # genetics_array = [[] for _ in range(81)]
+    # for i in range(81):
+    #     genetics_array[i] = [75, "R"]
+    # specimen_1 = specimen(genetics_array)
+    # print(specimen_1.get_output())
+    # print(int(specimen_1.get_fitness()))
+    #
+    # genetics_array1 = [[] for _ in range(81)]
+    # for i in range(81):
+    #     genetics_array1[i] = [100, "S"]
+    # specimen2 = specimen(genetics_array1)
+    # print(specimen2.get_output())
+    # print(int(specimen2.get_fitness()))
+    #
+    # genetics_array2 = [[] for _ in range(81)]
+    # for i in range(81):
+    #     genetics_array2[i] = [50, "P"]
+    # specimen3 = specimen(genetics_array2)
+    # print(specimen3.get_output())
+    # print(int(specimen3.get_fitness()))
+    #
+    # genetics_array3 = [[] for _ in range(81)]
+    # for i in range(81):
+    #     genetics_array3[i] = [0, "R"]
+    # specimen4 = specimen(genetics_array3)
+    # print(specimen4.get_output())
+    # print(int(specimen4.get_fitness()))
+    #
+    # population = [specimen_1, specimen2, specimen3, specimen4]
 
     first_generation = selection_and_crossover(population, "R", 4, 0.1)
 
